@@ -46,12 +46,7 @@
 
 	var React = __webpack_require__(30);
 	var ReactDOM = __webpack_require__(186);
-	var Dispatcher = __webpack_require__(1);
-	var KeyStore = __webpack_require__(7);
 	var KeyListener = __webpack_require__(25);
-	var Key = __webpack_require__(187);
-	var Note = __webpack_require__(6);
-	var Tones = __webpack_require__(29);
 	var Organ = __webpack_require__(188);
 	
 	$(document).ready(function () {
