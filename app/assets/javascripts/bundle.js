@@ -19657,20 +19657,21 @@
 	var KeyActions = __webpack_require__(160);
 	
 	var KeyListener = function () {
-	  //waiting for handler
-	  //adds keys to store
+	
+	  //Lets Action know when something happens
 	  $(document).keydown(function (event) {
 	    KeyActions.keyPressed(event.keyCode);
 	  });
 	
-	  //waiting for handler
-	  //removes key from store
 	  $(document).keyup(function (event) {
 	    KeyActions.keyReleased(event.keyCode);
 	  });
 	};
 	
-	$(KeyListener());
+	// $(KeyListener());
+	$(document).ready(function (e) {
+	  KeyListener();
+	});
 	
 	module.exports = KeyListener;
 
@@ -19682,8 +19683,13 @@
 	var AppDispatcher = __webpack_require__(162);
 	
 	var KeyActions = {
+	  //called from listener when a key event happens (up or down)
 	  keyPressed: function (key) {
 	    var payload = { noteName: Mapping[key], actionType: "KEY_DOWN" };
+	
+	    //Run through all callbacks registered with dispatcher
+	    //Stores will determine if they care to do anything
+	    //based on the payload
 	    AppDispatcher.dispatch(payload);
 	  },
 	
@@ -20091,6 +20097,9 @@
 	  },
 	
 	  componentDidMount: function () {
+	    //changeMode is added as a listener to the store
+	    //Will be called when Store calls emitChange()
+	    //changeMode effectively changes the view since it changes state
 	    KeyStore.addListener(this.changeMade);
 	  },
 	
@@ -20192,27 +20201,35 @@
 	
 	var _notes = [],
 	    _handlers = [];
+	
+	//Stores take a dispatcher as an argument to their constructor
+	//Store is now registered with the dispatcher
 	var KeyStore = new Store(AppDispatcher);
 	
 	//register
+	//Here the Store determines if it cares about what happened
+	//Stores must implement this method
+	//Run after dispatch is called. Loops through with payload
+	//and does something based on conditions
 	KeyStore.__onDispatch = function (payload) {
 	  if (payload.actionType === "KEY_DOWN") {
-	    // AppDispatcher.waitFor([IngrediantStore.dispatcherCallbackId]);
-	    // RecipeStore.create(payload.recipe);
 	    if (_notes.indexOf(payload.noteName) === -1) {
+	
+	      //changing notes array
 	      _notes.push(payload.noteName);
+	
+	      //Notify listeners that something has changed
 	      KeyStore.__emitChange();
 	      console.log(_notes);
-	      // Note.
 	    }
 	  } else if (payload.actionType === "KEY_UP") {
-	      var idx = _notes.indexOf(payload.noteName);
-	      if (idx >= 0) {
-	        _notes.splice(idx, 1);
-	        KeyStore.__emitChange();
-	        console.log(_notes);
-	      }
+	    var idx = _notes.indexOf(payload.noteName);
+	    if (idx >= 0) {
+	      _notes.splice(idx, 1);
+	      KeyStore.__emitChange();
+	      console.log(_notes);
 	    }
+	  }
 	};
 	
 	KeyStore.all = function () {

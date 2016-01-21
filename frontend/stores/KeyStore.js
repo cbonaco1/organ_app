@@ -4,18 +4,26 @@ var Note = require('../util/Note');
 var Tones = require('../constants/Tones');
 
 var _notes = [], _handlers = [];
+
+//Stores take a dispatcher as an argument to their constructor
+//Store is now registered with the dispatcher
 var KeyStore = new Store (AppDispatcher);
 
 //register
+//Here the Store determines if it cares about what happened
+//Stores must implement this method
+//Run after dispatch is called. Loops through with payload
+//and does something based on conditions
 KeyStore.__onDispatch = function (payload) {
   if (payload.actionType === "KEY_DOWN") {
-    // AppDispatcher.waitFor([IngrediantStore.dispatcherCallbackId]);
-    // RecipeStore.create(payload.recipe);
     if (_notes.indexOf(payload.noteName) === -1) {
+      
+      //changing notes array
       _notes.push(payload.noteName);
+
+      //Notify listeners that something has changed
       KeyStore.__emitChange();
       console.log(_notes);
-      // Note.
     }
   } else if (payload.actionType === "KEY_UP") {
     var idx = _notes.indexOf(payload.noteName);

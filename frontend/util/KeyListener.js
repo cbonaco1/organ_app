@@ -2,20 +2,21 @@
 var KeyActions = require('../actions/KeyActions');
 
 var KeyListener = function () {
-  //waiting for handler
-  //adds keys to store
+
+    //Lets Action know when something happens
   $(document).keydown(function(event) {
     KeyActions.keyPressed(event.keyCode);
   });
 
-  //waiting for handler
-  //removes key from store
   $(document).keyup(function(event) {
     KeyActions.keyReleased(event.keyCode);
   });
 };
 
-$(KeyListener());
+// $(KeyListener());
+$(document).ready(function(e){
+  KeyListener();
+});
 
 
 

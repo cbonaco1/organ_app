@@ -22,6 +22,9 @@ var Key = React.createClass({
   },
 
   componentDidMount: function () {
+    //changeMode is added as a listener to the store
+    //Will be called when Store calls emitChange()
+    //changeMode effectively changes the view since it changes state
     KeyStore.addListener(this.changeMade);
   },
 
