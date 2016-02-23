@@ -9,15 +9,15 @@ var _notes = [], _handlers = [];
 //Store is now registered with the dispatcher
 var KeyStore = new Store (AppDispatcher);
 
-//register
 //Here the Store determines if it cares about what happened
 //Stores must implement this method
 //Run after dispatch is called. Loops through with payload
 //and does something based on conditions
+//Dispatch is called by Action when the listener picks up something (keydown.up)
 KeyStore.__onDispatch = function (payload) {
   if (payload.actionType === "KEY_DOWN") {
     if (_notes.indexOf(payload.noteName) === -1) {
-      
+
       //changing notes array
       _notes.push(payload.noteName);
 

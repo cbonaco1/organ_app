@@ -14,6 +14,10 @@
  *= require_self
  */
 
+ header {
+   text-align: center;
+ }
+
 .organ {
   margin: auto;
   width: 936px;

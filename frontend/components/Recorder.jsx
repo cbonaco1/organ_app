@@ -23,10 +23,10 @@ var Recorder = React.createClass({
 
   render: function () {
 
+    //Note this is supposed to return a Start and Stop button,
+    //but function not yet fully implemented.
     return(
       <div>
-        <button onClick={this.recordStart}>Start</button>
-        <button onClick={this.recordStop}>Stop</button>
       </div>
     );
   }
